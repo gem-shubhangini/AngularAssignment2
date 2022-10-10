@@ -3,7 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 const routes: Routes = [
   {
-    path: '', redirectTo:'/user/create',pathMatch:"full"
+    path: '', redirectTo:'user/create',pathMatch:"full"
    
   },
   {
