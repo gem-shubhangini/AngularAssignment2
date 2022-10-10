@@ -1,0 +1,129 @@
+
+<form [formGroup]="profileForm"  class="form border rounded  " (ngSubmit)="onSubmit()">
+    <div class=" bg-info py-2 rounded-top">
+    <h3 class="text-center text-light">New User Form</h3>
+    </div>
+    <div class="p-3">
+    <div class=" my-2">
+        <label for="name" >Name</label>
+        <input type="text" class="form-control" id="name" formControlName="name" />
+       <div *ngIf="  profileForm.get('name')?.invalid && (profileForm.get('name')?.dirty || profileForm.get('name')?.touched)" class="alert alert-danger">
+        <div *ngIf="profileForm.get('name')?.errors?.['required']">
+            Name is required.
+        </div>
+        <div *ngIf="profileForm.get('name')?.errors?.['minlength']">
+            Name must be at least 2 characters long.
+          </div>
+          <div *ngIf="profileForm.get('name')?.errors?.['maxlength']">
+            Name should be less than 30 characters.
+          </div>
+          <div *ngIf="profileForm.get('name')?.errors?.['pattern']">
+            Name should  have only alphabets and spaces.
+          </div>
+       </div>
+
+    </div>
+    <div class=" my-2">
+        <label for="email">Email address</label>
+        <input type="text" class="form-control" id="email" formControlName="Email"/>
+        <div *ngIf="profileForm.get('Email')?.invalid && (profileForm.get('Email')?.dirty || profileForm.get('Email')?.touched)" class="alert alert-danger">
+            <div *ngIf="  profileForm.get('Email')?.errors?.['required']">
+                Email is required.
+            </div>
+           
+              <div *ngIf="profileForm.get('Email')?.errors?.['email']">
+                Email is not valid.
+              </div>
+           </div>
+    
+    </div>
+    <div class=" my-2">
+        <label for="number">Mobile Number</label>
+        <input type="text" class="form-control" id="number" formControlName="MobileNo"/>
+        <div *ngIf=" profileForm.get('MobileNo')?.invalid && (profileForm.get('MobileNo')?.dirty || profileForm.get('MobileNo')?.touched)" class="alert alert-danger">
+            <div *ngIf="profileForm.get('MobileNo')?.errors?.['required']">
+                MobileNo is required.
+            </div>
+           
+              <div *ngIf="profileForm.get('MobileNo')?.errors?.['pattern']">
+                MobileNo is not valid.
+              </div>
+           </div>
+    </div>
+    <div class=" my-3">
+        <div > Gender:</div>
+    <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault1" value="Male" formControlName="gender">
+        <label class="form-check-label" for="flexRadioDefault1">
+          Male
+        </label>
+      </div>
+      <div class="form-check form-check-inline">
+        <input class="form-check-input" type="radio" name="gender" id="flexRadioDefault2" value="Female" formControlName="gender">
+        <label class="form-check-label" for="flexRadioDefault2">
+         Female
+        </label>
+      </div>
+      
+        <div *ngIf=" profileForm.get('gender')?.errors?.['required']" class="alert alert-danger">
+            Gender is required.
+        </div>
+  
+    </div>
+    <div class=" my-3">
+   <div >Technology:</div>
+   <div class="form-check form-check-inline" *ngFor="let control of TechArray.controls; let i = index;">
+    <input class="form-check-input" type="checkbox" id="inlineCheckbox{{i}}" (change)="getSelectedTechValue()"
+    [formControl] = "$any(control)" >
+    <label class="form-check-label" for="inlineCheckbox{{i}}">{{techs[i]}}</label>
+  </div>  
+  <div *ngIf="  TechError" class="alert alert-danger"> 
+         Technology is required.
+
+ </div>    
+    </div>
+    <div class=" my-3">
+        <div >Category:</div>
+        <select class="form-select" aria-label="category select" formControlName="category" >
+            <option value="General">General</option>
+            <option value="SC/ST">SC/ST</option>
+            <option value="OBC">OBC</option>
+          </select>
+
+         
+            <div *ngIf=" profileForm.get('category')?.errors?.['required']" class="alert alert-danger">
+                Category is required.
+            </div>
+       
+    </div>
+    <div class="my-3">
+        <label for="formFile" >Profile Pic</label>
+        <input class="form-control" type="file" id="formFile" accept="image/*" formControlName="Image" (change)="onFileChanged($event)">
+      </div>
+    <button type="submit" class="btn btn-primary">Preview</button>
+    </div>
+</form>
+
+<div class="modal fade" id="exampleModal" [class]="showclass">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">User Details Preview</h1>
+
+        </div>
+        <div class="modal-body">
+            <p>Name: {{data?.name}}</p>
+            <p>Email:{{data?.Email}}</p>
+            <p>Phone No. {{data?.MobileNo}}</p>
+            <p>Gender: {{data?.gender}}</p>
+            <p>Category:{{data?.category}}</p>
+            <p>Technology:{{selectedtechValues}}</p>
+            <p>ProfilePic:<img src={{url}} alt="Profilepic"></p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" (click)="onclose()">Close</button>
+          <button type="button" class="btn btn-primary" (click)="save()">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
